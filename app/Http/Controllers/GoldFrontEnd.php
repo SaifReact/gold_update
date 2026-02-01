@@ -221,7 +221,7 @@ class GoldFrontEnd extends Controller
                 'low' => $elements[5]
             ];
 
-            $jsonString = json_encode($jsonData);
+            $jsonString = json_encode($jsonData);            
 
             $goldOz = json_decode($jsonString, true);
 
@@ -234,7 +234,31 @@ class GoldFrontEnd extends Controller
 
             $secondObject = $rows[1];
 
-            $goldelements = explode("\t", trim($secondObject));
+            $sliverelements = explode("\t", trim($secondObject));
+
+            $sliverjsonData = [
+                'id' => $sliverelements[0],
+                'type' => $sliverelements[1],
+                'bid_sell' => $sliverelements[2],
+                'ask_buy' => $sliverelements[3],
+                'high' => $sliverelements[4],
+                'low' => $sliverelements[5]
+            ];
+
+            $sliverjsonString = json_encode($sliverjsonData);
+
+            $sliverOz = json_decode($sliverjsonString, true);
+
+            $sliverId = $sliverOz['id'];
+            $slivertype = $sliverOz['type'];
+            $sliverbid_sell = $sliverOz['bid_sell'];
+            $sliverask_buy = $sliverOz['ask_buy'];  
+            $sliverhigh = $sliverOz['high'];
+            $sliverlow = $sliverOz['low'];
+
+            $thirdObject = $rows[2];
+
+            $goldelements = explode("\t", trim($thirdObject));
 
             $goldjsonData = [
                 'id' => $goldelements[0],
@@ -278,6 +302,7 @@ class GoldFrontEnd extends Controller
                 'low' => $TTBlow,
             ];
 
+            
 
             $Gold999id = "7526";
             $Gold999type = "GOLD 9999";
@@ -293,6 +318,24 @@ class GoldFrontEnd extends Controller
                 'ask_buy' => $Gold999ask_buy,
                 'high' => $Gold999high,
                 'low' => $Gold999low,
+            ];
+
+            // Silver Kilo Bar Calculation
+
+            $SilKiloBarid = "7525";
+            $SilKiloBartype = "SILVER KILO BAR";
+            $SilKiloBarbid_sell = sprintf("%0.2f",($sliverbid_sell * $kiloBar));
+            $SilKiloBarask_buy = sprintf("%0.2f",($sliverask_buy * $kiloBar));
+            $SilKiloBarhigh = sprintf("%0.2f",($sliverhigh * $kiloBar));
+            $SilKiloBarlow = sprintf("%0.2f",($sliverlow * $kiloBar));
+
+            $silKiloBar = [
+                'id' => $SilKiloBarid,
+                'type' => $SilKiloBartype,
+                'bid_sell' => $SilKiloBarbid_sell,
+                'ask_buy' => $SilKiloBarask_buy,
+                'high' => $SilKiloBarhigh,
+                'low' => $SilKiloBarlow,
             ];
 
             $Gold92id = "8558";
@@ -343,15 +386,17 @@ class GoldFrontEnd extends Controller
                 'low' => sprintf("%0.2f",((($TTBlow / $mes24k995)* $kiloBar))),
             ];
 
-            $mergedArray = array_merge($goldOz, $gold, $gold92, $gold999, $tenTolaBar, $kiloBar995, $kiloBar9999);
+            $mergedArray = array_merge($goldOz, $sliverOz, $gold, $gold92, $gold999, $tenTolaBar, $silKiloBar, $kiloBar995, $kiloBar9999);
 
             $mergedArray = [];
 
             $mergedArray[] = $goldOz;
+            $mergedArray[] = $sliverOz;
             $mergedArray[] = $gold;
             $mergedArray[] = $gold92;
             $mergedArray[] = $gold999;
             $mergedArray[] = $tenTolaBar;
+            $mergedArray[] = $silKiloBar;
             $mergedArray[] = $kiloBar995;
             $mergedArray[] = $kiloBar9999;
             
