@@ -16,6 +16,8 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\BroadcastStreamControllerStream;
+use App\Http\Controllers\BroadcastStreamControllerSse;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +54,9 @@ Route::get('gold-price-status', [GoldFrontEnd::class, 'goldStatus']); //UAE Dirh
 Route::get('gold-price-business-insider', [GoldFrontEnd::class, 'goldPriceBI']); //UAE Dirham price
 Route::get('gold-price-apon-jewelary', [GoldFrontEnd::class, 'showBroadcastData']); //UAE Dirham price
 Route::get('gold-price-crystal-jewelary', [GoldFrontEnd::class, 'showBroadcastDataCrystal']); //UAE Dirham price
+Route::get('crystal-gold', [BroadcastStreamControllerStream::class, 'stream']);
+Route::get('crystal-gold/sse', [BroadcastStreamControllerSse::class, 'sse']);
+
 Route::get('site-setting', [SettingController::class, 'index']); //app setting
 
 // **************************** historical Data ***********

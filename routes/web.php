@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BroadcastStreamController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +26,17 @@ Route::get('/forget-password', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard/index');
+});
+
+Route::get('crystal-gold/sse', [BroadcastStreamController::class, 'sse']);
+Route::get('/stream', fn () => view('stream'));
+
+use App\Http\Controllers\TestSseController;
+
+Route::get('/test-sse', [TestSseController::class, 'test']);
+
+Route::get('/stream', function () {
+    return view('stream');
 });
 
 
