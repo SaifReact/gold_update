@@ -55,7 +55,6 @@ Route::get('gold-price-business-insider', [GoldFrontEnd::class, 'goldPriceBI']);
 Route::get('gold-price-apon-jewelary', [GoldFrontEnd::class, 'showBroadcastData']); //UAE Dirham price
 Route::get('gold-price-crystal-jewelary', [GoldFrontEnd::class, 'showBroadcastDataCrystal']); //UAE Dirham price
 Route::get('crystal-gold', [BroadcastStreamControllerStream::class, 'stream']);
-Route::get('crystal-gold/sse', [BroadcastStreamControllerSse::class, 'sse']);
 
 Route::get('site-setting', [SettingController::class, 'index']); //app setting
 
