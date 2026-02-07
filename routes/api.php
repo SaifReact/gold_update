@@ -16,8 +16,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\SellController;
-use App\Http\Controllers\BroadcastStreamControllerStream;
-use App\Http\Controllers\BroadcastStreamControllerSse;
+use App\Http\Controllers\BroadcastControllerStream;
 
 /*
 |--------------------------------------------------------------------------

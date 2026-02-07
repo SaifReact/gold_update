@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class BroadcastStreamControllerStream extends Controller
+class BroadcastControllerStream extends Controller
 {
     public function stream(Request $request)
     {
