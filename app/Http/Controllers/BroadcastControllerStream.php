@@ -107,7 +107,7 @@ class BroadcastControllerStream extends Controller
             ];
         };
 
-        // One-shot JSON mode
+        // One-shot JSON mode (supports optional ?id=7522 to return single record)
         if ($request->boolean('once') || $request->get('once') === '1' || $request->get('mode') === 'once') {
             $response = Http::withOptions(['timeout' => 10])->get(
                 'http://bcast.apanjewellery.com:7767/VOTSBroadcastStreaming/Services/xml/GetLiveRateByTemplateID/apan',
@@ -138,11 +138,20 @@ class BroadcastControllerStream extends Controller
                 $parseLineToState($pending, $state);
             }
 
-            return response()->json(array_values($state));
+            $results = array_values($state);
+            if ($request->filled('id')) {
+                $id = (string) $request->get('id');
+                $filtered = array_values(array_filter($results, function ($r) use ($id) {
+                    return isset($r['id']) && $r['id'] === $id;
+                }));
+                return response()->json($filtered);
+            }
+
+            return response()->json($results);
         }
 
         // Streaming response: emit periodic JSON snapshots (text/plain for browser flush)
-        return new StreamedResponse(function () use ($parseLineToState) {
+        return new StreamedResponse(function () use ($parseLineToState, $request) {
             $response = Http::withOptions([
                 'stream'  => true,
                 'timeout' => 0,
@@ -204,7 +213,16 @@ class BroadcastControllerStream extends Controller
                 $parseLineToState($pending, $state);
                 $pending = null;
             }
-            echo json_encode(array_values($state));
+
+            $results = array_values($state);
+            if ($request->filled('id')) {
+                $id = (string) $request->get('id');
+                $results = array_values(array_filter($results, function ($r) use ($id) {
+                    return isset($r['id']) && $r['id'] === $id;
+                }));
+            }
+
+            echo json_encode($results);
             echo "\n";
             flush();
 
